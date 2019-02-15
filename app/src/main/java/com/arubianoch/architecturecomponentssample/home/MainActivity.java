@@ -1,7 +1,9 @@
-package com.arubianoch.architecturecomponentssample;
+package com.arubianoch.architecturecomponentssample.home;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.arubianoch.architecturecomponentssample.R;
 
 public class MainActivity extends AppCompatActivity {
 
