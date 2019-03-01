@@ -28,6 +28,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
                 //This validation always should go outside 'if' check.
                 notifyDataSetChanged();//TODO; Use DiffUtils when we have AutoValue models
             }
+            setHasStableIds(true);
         });
     }
 
@@ -44,6 +45,11 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return data.get(position).id;
     }
 
     static final class RepoViewHolder extends RecyclerView.ViewHolder {
