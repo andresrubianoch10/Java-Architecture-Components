@@ -3,6 +3,7 @@ package com.arubianoch.architecturecomponentssample.home;
 import android.arch.lifecycle.LifecycleOwner;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -28,18 +29,19 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
                 //This validation always should go outside 'if' check.
                 notifyDataSetChanged();//TODO; Use DiffUtils when we have AutoValue models
             }
-            setHasStableIds(true);
+//            setHasStableIds(true);
         });
     }
 
     @Override
     public RepoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_repo_list_item, parent, false);
+        return new RepoViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RepoViewHolder holder, int position) {
-
+        holder.bind(data.get(position));
     }
 
     @Override
@@ -65,7 +67,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
             repoName = itemView.findViewById(R.id.tv_repo_name);
             repoDescription = itemView.findViewById(R.id.tv_repo_description);
             forks = itemView.findViewById(R.id.tv_forks);
-            stars = itemView.findViewWithTag(R.id.tv_stars);
+            stars = itemView.findViewById(R.id.tv_stars);
         }
 
         void bind(@NonNull Repo repo) {
