@@ -1,5 +1,7 @@
 package com.arubianoch.architecturecomponentssample.model;
 
+import android.support.annotation.Nullable;
+
 import com.squareup.moshi.Json;
 
 /**
