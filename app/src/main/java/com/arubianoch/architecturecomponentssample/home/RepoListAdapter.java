@@ -20,8 +20,11 @@ import java.util.List;
 public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoViewHolder> {
 
     private final List<Repo> data = new ArrayList<>();
+    private RepoSelectedListener repoSelectedListener;
 
-    public RepoListAdapter(ListViewModel viewModel, LifecycleOwner lifecycleOwner) {
+    public RepoListAdapter(ListViewModel viewModel, LifecycleOwner lifecycleOwner,
+                           RepoSelectedListener repoSelectedListener) {
+        this.repoSelectedListener = repoSelectedListener;
         viewModel.getRepos().observe(lifecycleOwner, repos -> {
             data.clear();
             if (repos != null) {
@@ -36,7 +39,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
     @Override
     public RepoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_repo_list_item, parent, false);
-        return new RepoViewHolder(view);
+        return new RepoViewHolder(view, repoSelectedListener);
     }
 
     @Override
@@ -61,16 +64,25 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
         private TextView forks;
         private TextView stars;
 
-        public RepoViewHolder(View itemView) {
+        private Repo repo;
+
+        public RepoViewHolder(View itemView, RepoSelectedListener repoSelectedListener) {
             super(itemView);
 
             repoName = itemView.findViewById(R.id.tv_repo_name);
             repoDescription = itemView.findViewById(R.id.tv_repo_description);
             forks = itemView.findViewById(R.id.tv_forks);
             stars = itemView.findViewById(R.id.tv_stars);
+
+            itemView.setOnClickListener(v -> {
+                if (repo != null) {
+                    repoSelectedListener.onRepoSelected(repo);
+                }
+            });
         }
 
         void bind(@NonNull Repo repo) {
+            this.repo = repo;
             repoName.setText(repo.name);
             repoDescription.setText(repo.description);
             forks.setText(String.valueOf(repo.forks));

@@ -13,11 +13,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.arubianoch.architecturecomponentssample.R;
+import com.arubianoch.architecturecomponentssample.model.Repo;
 
 /**
  * @author Andres Rubiano Del Chiaro
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements RepoSelectedListener{
 
     private RecyclerView listView;
     private TextView errorTextView;
@@ -44,7 +45,7 @@ public class ListFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(ListViewModel.class);
 
         listView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        listView.setAdapter(new RepoListAdapter(viewModel, this));
+        listView.setAdapter(new RepoListAdapter(viewModel, this, this));
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         observeViewModel();
@@ -70,5 +71,10 @@ public class ListFragment extends Fragment {
                 listView.setVisibility(View.GONE);
             }
         });
+    }
+
+    @Override
+    public void onRepoSelected(Repo repo) {
+
     }
 }
