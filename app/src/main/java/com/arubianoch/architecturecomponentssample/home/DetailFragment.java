@@ -21,6 +21,8 @@ public class DetailFragment extends Fragment {
     private TextView forks;
     private TextView stars;
 
+    private RepoSelectedViewModel repoSelectedViewModel;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,13 +39,20 @@ public class DetailFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        repoSelectedViewModel = ViewModelProviders.of(getActivity())
+                .get(RepoSelectedViewModel.class);
+        repoSelectedViewModel.restoreFromBundle(savedInstanceState);
         displayRepo();
     }
 
-    private void displayRepo() {
-        RepoSelectedViewModel repoSelectedViewModel = ViewModelProviders.of(getActivity())
-                .get(RepoSelectedViewModel.class);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        repoSelectedViewModel.saveToBundle(outState);
+    }
 
+    private void displayRepo() {
         repoSelectedViewModel.getSelectedRepo().observe(this, repo -> {
             repoName.setText(repo.name);
             repoDescription.setText(repo.description);
