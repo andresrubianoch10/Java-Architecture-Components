@@ -55,7 +55,9 @@ public class ListFragment extends Fragment implements RepoSelectedListener{
     public void onRepoSelected(Repo repo) {
         RepoSelectedViewModel repoSelectedViewModel = ViewModelProviders.of(getActivity())
                 .get(RepoSelectedViewModel.class);
+
         repoSelectedViewModel.setSelectedRepo(repo);
+
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.screen_container, new DetailFragment())
                 .addToBackStack(null)
