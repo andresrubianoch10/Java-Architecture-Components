@@ -51,6 +51,17 @@ public class ListFragment extends Fragment implements RepoSelectedListener{
         observeViewModel();
     }
 
+    @Override
+    public void onRepoSelected(Repo repo) {
+        RepoSelectedViewModel repoSelectedViewModel = ViewModelProviders.of(getActivity())
+                .get(RepoSelectedViewModel.class);
+        repoSelectedViewModel.setSelectedRepo(repo);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.screen_container, new DetailFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
     private void observeViewModel() {
         viewModel.getRepos().observe(this, repos -> {
             if (repos != null) {
@@ -71,10 +82,5 @@ public class ListFragment extends Fragment implements RepoSelectedListener{
                 listView.setVisibility(View.GONE);
             }
         });
-    }
-
-    @Override
-    public void onRepoSelected(Repo repo) {
-
     }
 }
